@@ -13,7 +13,7 @@ public class PayApiExceptionHandler {
     @ExceptionHandler(PayApiCustomException.class)
     public ResponseEntity<PayApiResponse> handlePayApiException(Exception e) {
 
-        ErrorCode errorCode = ErrorCode.UNKNOWN_EXCEPTION;
+        ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
 
         if (e instanceof PayApiCustomException payApiCustomException) {
             errorCode = payApiCustomException.getErrorCode();
