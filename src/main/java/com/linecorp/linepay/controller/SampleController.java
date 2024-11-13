@@ -1,6 +1,6 @@
 package com.linecorp.linepay.controller;
 
-import com.linecorp.linepay.config.LineApiResponse;
+import com.linecorp.linepay.model.LineApiResponse;
 import com.linecorp.linepay.exception.AmountNotEnoughException;
 import com.linecorp.linepay.exception.InvalidParameterException;
 import org.springframework.http.ResponseEntity;

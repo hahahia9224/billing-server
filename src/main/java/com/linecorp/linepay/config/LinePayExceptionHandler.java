@@ -2,6 +2,7 @@ package com.linecorp.linepay.config;
 
 import com.linecorp.linepay.exception.ErrorCode;
 import com.linecorp.linepay.exception.LinePayCustomException;
+import com.linecorp.linepay.model.LineApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

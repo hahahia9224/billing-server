@@ -1,4 +1,4 @@
-package com.linecorp.linepay.config;
+package com.linecorp.linepay.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.linecorp.linepay.exception.ErrorCode;
