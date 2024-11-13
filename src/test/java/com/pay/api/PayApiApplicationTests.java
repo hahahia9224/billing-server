@@ -1,10 +1,10 @@
-package com.linecorp.linepay;
+package com.pay.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LinePayApplicationTests {
+class PayApiApplicationTests {
 
     @Test
     void contextLoads() {

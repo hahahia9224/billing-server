@@ -1,13 +1,13 @@
-package com.linecorp.linepay;
+package com.pay.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LinePayApplication {
+public class PayApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LinePayApplication.class, args);
+        SpringApplication.run(PayApiApplication.class, args);
     }
 
 }

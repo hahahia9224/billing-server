@@ -1,7 +1,7 @@
-package com.linecorp.linepay.model;
+package com.pay.api.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.linecorp.linepay.exception.ErrorCode;
+import com.pay.api.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LineApiResponse {
+public class PayApiResponse {
 
     private final String resultCode;
 
@@ -20,8 +20,8 @@ public class LineApiResponse {
 
     private final Integer balance;
 
-    public static LineApiResponse errorFrom(ErrorCode errorCode, String resultMessage) {
-        return new LineApiResponse(
+    public static PayApiResponse errorFrom(ErrorCode errorCode, String resultMessage) {
+        return new PayApiResponse(
                 errorCode.getResultCode(),
                 resultMessage,
                 null,
@@ -29,8 +29,8 @@ public class LineApiResponse {
         );
     }
 
-    public static LineApiResponse ok(Long transactionSeq, Integer balance) {
-        return new LineApiResponse(
+    public static PayApiResponse ok(Long transactionSeq, Integer balance) {
+        return new PayApiResponse(
                 "0000",
                 "success",
                 transactionSeq,

@@ -1,4 +1,4 @@
-package com.linecorp.linepay.exception;
+package com.pay.api.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ public enum ErrorCode {
     AMOUNT_NOT_ENOUGH(HttpStatus.FORBIDDEN, "4444", "amount not enough"),
 
     // 기타 서버 에러
-    UNKNOWN_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR,  "9999", "internal server error");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,  "9999", "internal server error");
 
     private final HttpStatus status;
     private final String resultCode;

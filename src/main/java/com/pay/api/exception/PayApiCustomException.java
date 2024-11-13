@@ -1,18 +1,18 @@
-package com.linecorp.linepay.exception;
+package com.pay.api.exception;
 
 import lombok.Getter;
 
 @Getter
-public class LinePayCustomException extends RuntimeException {
+public class PayApiCustomException extends RuntimeException {
 
     private final ErrorCode errorCode;
 
-    public LinePayCustomException(ErrorCode errorCode) {
+    public PayApiCustomException(ErrorCode errorCode) {
         super(errorCode.getResultMessage());
         this.errorCode = errorCode;
     }
 
-    public LinePayCustomException(ErrorCode errorCode, String message) {
+    public PayApiCustomException(ErrorCode errorCode, String message) {
         super(message != null ? message : errorCode.getResultMessage());
         this.errorCode = errorCode;
     }

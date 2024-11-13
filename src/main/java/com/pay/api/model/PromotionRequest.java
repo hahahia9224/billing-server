@@ -1,4 +1,4 @@
-package com.linecorp.linepay.model;
+package com.pay.api.model;
 
 import lombok.Getter;
 import lombok.Setter;
