@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     // 파라미터 검증 실패
-    INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "4000", "title is required"),
+    INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "4000", "invalid parameter"),
 
     // 잔액 부족
     AMOUNT_NOT_ENOUGH(HttpStatus.FORBIDDEN, "4444", "amount not enough"),
