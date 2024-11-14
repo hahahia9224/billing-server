@@ -1,5 +1,8 @@
 package com.pay.api.model;
 
+import com.pay.api.helper.ValidPromotionRatioFloatRange;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +14,14 @@ public class PromotionRequest {
     private String promotionType;
 
     // 프로모션 제목
+    @NotNull(message = "promotionTitle is required")
+    @Size(max = 255, message = "promotionTitle length is must be 255 characters or less")
     private String promotionTitle;
 
     // 프로모션 할인 금액
     private Integer promotionAmount;
 
     // 프로모션 할인 비율
+    @ValidPromotionRatioFloatRange(message = "promotionRatio range is 0 ~ 100")
     private Float promotionRatio;
 }
