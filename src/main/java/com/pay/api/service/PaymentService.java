@@ -3,6 +3,7 @@ package com.pay.api.service;
 import com.pay.api.domain.Account;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
+import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.dto.AccountDto;
 import com.pay.api.repository.AccountRepository;
 import jakarta.transaction.Transactional;

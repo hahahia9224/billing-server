@@ -1,8 +1,10 @@
-package com.pay.api.service;
+package com.pay.api.model.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -20,5 +22,8 @@ public class PaymentCommand {
 
     // 결제 제목
     private String title;
+
+    // 프로모션 적용 상세
+    private List<PromotionCommand> promotionCommands;
 
 }

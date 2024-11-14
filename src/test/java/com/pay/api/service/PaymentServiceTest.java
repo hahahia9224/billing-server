@@ -3,6 +3,7 @@ package com.pay.api.service;
 import com.pay.api.domain.Account;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
+import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -81,7 +83,7 @@ class PaymentServiceTest {
 
     private PaymentCommand getMockPaymentCommand(Integer amount, Integer promotionFinalPrice, Boolean isPromotionPrice) {
         String title = "test_title";
-        return new PaymentCommand(amount, promotionFinalPrice, isPromotionPrice, title);
+        return new PaymentCommand(amount, promotionFinalPrice, isPromotionPrice, title, new ArrayList<>());
     }
 
     private Account getMockAccount(Integer balance) {
