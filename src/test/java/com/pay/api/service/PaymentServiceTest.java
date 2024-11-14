@@ -29,11 +29,12 @@ class PaymentServiceTest {
 
     @Test
     void account_not_found_exception() {
-        Long amount = 2000L;
-        Long promotionFinalPrice = 1500L;
+        Integer amount = 2000;
+        Integer promotionFinalPrice = 1500;
+        Boolean isPromotionPrice = true;
 
         // given
-        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice);
+        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
         // when
         when(accountRepository.findById(accountId)).thenReturn(Optional.empty());
@@ -44,13 +45,14 @@ class PaymentServiceTest {
 
     @Test
     void amount_is_more_than_account_balance_exception() {
-        Long balance = 1000L;
-        Long amount = 2000L;
-        Long promotionFinalPrice = 1500L;
+        Integer balance = 1000;
+        Integer amount = 2000;
+        Integer promotionFinalPrice = 1500;
+        Boolean isPromotionPrice = true;
 
         // given
         Account mockAccount = getMockAccount(balance);
-        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice);
+        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
         // when
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(mockAccount));
@@ -61,13 +63,14 @@ class PaymentServiceTest {
 
     @Test
     void promotion_amount_more_than_account_balance_exception() {
-        Long balance = 1000L;
-        Long amount = 2000L;
-        Long promotionFinalPrice = 1500L;
+        Integer balance = 1000;
+        Integer amount = 2000;
+        Integer promotionFinalPrice = 1500;
+        Boolean isPromotionPrice = true;
 
         // given
         Account mockAccount = getMockAccount(balance);
-        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice);
+        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
         // 프로모션 적용하더라도 잔액이 부족한 경우
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(mockAccount));
@@ -76,11 +79,12 @@ class PaymentServiceTest {
 
     }
 
-    private PaymentCommand getMockPaymentCommand(Long amount, Long promotionFinalPrice) {
-        return new PaymentCommand(amount, promotionFinalPrice);
+    private PaymentCommand getMockPaymentCommand(Integer amount, Integer promotionFinalPrice, Boolean isPromotionPrice) {
+        String title = "test_title";
+        return new PaymentCommand(amount, promotionFinalPrice, isPromotionPrice, title);
     }
 
-    private Account getMockAccount(Long balance) {
+    private Account getMockAccount(Integer balance) {
         return new Account(accountId, LocalDateTime.now(), balance);
     }
 }

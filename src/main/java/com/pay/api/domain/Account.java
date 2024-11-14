@@ -24,5 +24,5 @@ public class Account {
     private LocalDateTime registeredDate;
 
     @Column(name = "balance")
-    private Long balance;
+    private Integer balance;
 }

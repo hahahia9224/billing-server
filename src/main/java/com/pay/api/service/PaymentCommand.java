@@ -10,9 +10,15 @@ import lombok.Setter;
 public class PaymentCommand {
 
     // 프로모션 적용 전 가격
-    private Long amount;
+    private Integer amount;
 
-    // 프로모션 적용 가격
-    private Long promotionFinalPrice;
+    // 프로모션 적용 후 가격
+    private Integer promotionFinalPrice;
+
+    // 프로모션 적용 여부
+    private Boolean isPromotionPrice;
+
+    // 결제 제목
+    private String title;
 
 }

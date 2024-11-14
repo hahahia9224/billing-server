@@ -4,7 +4,6 @@ import com.pay.api.exception.InvalidParameterException;
 import com.pay.api.model.PayApiResponse;
 import com.pay.api.model.PaymentRequest;
 import com.pay.api.model.PromotionRequest;
-import com.pay.api.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class PaymentController {
-
-    private final PaymentService paymentService;
 
     @PostMapping("/v1/payment/account/{accountSeq}")
     public ResponseEntity<PayApiResponse> payment(@Valid @RequestBody PaymentRequest paymentRequest, @PathVariable Long accountSeq) {

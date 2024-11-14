@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class AccountDto {
     private Long id;
     private LocalDateTime registeredDate;
-    private Long balance;
+    private Integer balance;
 
     public static AccountDto from(Account account) {
         return new AccountDto(

@@ -15,6 +15,7 @@ import java.util.Optional;
 @Transactional
 @AllArgsConstructor
 public class PaymentService {
+
     private final AccountRepository accountRepository;
 
     public void payment(Long accountSeq, PaymentCommand paymentCommand) {
