@@ -1,4 +1,4 @@
-package com.pay.api.model;
+package com.pay.api.model.enums;
 
 import com.pay.api.exception.InvalidPromotionTypeException;
 import lombok.Getter;

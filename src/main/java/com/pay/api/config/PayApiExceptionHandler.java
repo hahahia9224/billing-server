@@ -2,7 +2,7 @@ package com.pay.api.config;
 
 import com.pay.api.exception.ErrorCode;
 import com.pay.api.exception.PayApiCustomException;
-import com.pay.api.model.PayApiResponse;
+import com.pay.api.model.api.PayApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

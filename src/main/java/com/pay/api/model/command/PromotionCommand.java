@@ -1,7 +1,7 @@
 package com.pay.api.model.command;
 
-import com.pay.api.model.PromotionRequest;
-import com.pay.api.model.PromotionType;
+import com.pay.api.model.api.PromotionRequest;
+import com.pay.api.model.enums.PromotionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

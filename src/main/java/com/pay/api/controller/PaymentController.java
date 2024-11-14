@@ -1,7 +1,7 @@
 package com.pay.api.controller;
 
-import com.pay.api.model.PayApiResponse;
-import com.pay.api.model.PaymentRequest;
+import com.pay.api.model.api.PayApiResponse;
+import com.pay.api.model.api.PaymentRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

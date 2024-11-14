@@ -1,7 +1,7 @@
 package com.pay.api.helper;
 
 import com.pay.api.exception.InvalidPromotionTypeException;
-import com.pay.api.model.PromotionType;
+import com.pay.api.model.enums.PromotionType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

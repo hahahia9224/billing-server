@@ -1,4 +1,4 @@
-package com.pay.api.model;
+package com.pay.api.model.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
