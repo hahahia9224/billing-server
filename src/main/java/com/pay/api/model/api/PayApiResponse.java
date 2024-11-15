@@ -29,6 +29,15 @@ public class PayApiResponse {
         );
     }
 
+    public static PayApiResponse error(String resultCode, String resultMessage) {
+        return new PayApiResponse(
+                resultCode,
+                resultMessage,
+                null,
+                null
+        );
+    }
+
     public static PayApiResponse ok(Long transactionSeq, Integer balance) {
         return new PayApiResponse(
                 "0000",

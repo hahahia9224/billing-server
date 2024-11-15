@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,13 +23,8 @@ public class PaymentService {
 
     public PaymentResult payment(Long accountId, PaymentCommand paymentCommand) {
 
-        // TODO row lock 처리 필요
-        Optional<Account> account = accountRepository.findById(accountId);
-        if (account.isEmpty()) {
-            throw new AccountNotFoundException();
-        }
-
-        Account accountInDb = account.get();
+        Account accountInDb = accountRepository.findByIdWithLock(accountId)
+                .orElseThrow(AccountNotFoundException::new);
 
         if (paymentCommand.getPromotionFinalPrice() > accountInDb.getBalance()) {
             throw new AmountNotEnoughException();
