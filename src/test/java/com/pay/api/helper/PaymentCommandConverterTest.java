@@ -1,8 +1,7 @@
-package com.pay.api.controller;
+package com.pay.api.helper;
 
 import com.pay.api.exception.InvalidParameterException;
 import com.pay.api.exception.InvalidPromotionTypeException;
-import com.pay.api.helper.PaymentCommandConverter;
 import com.pay.api.model.api.PaymentRequest;
 import com.pay.api.model.api.PromotionRequest;
 import com.pay.api.model.enums.PromotionType;
