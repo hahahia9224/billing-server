@@ -5,6 +5,7 @@ import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.repository.AccountRepository;
+import com.pay.api.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,6 +24,9 @@ class PaymentServiceTest {
 
     @Mock
     private AccountRepository accountRepository;
+
+    @Mock
+    private TransactionRepository transactionRepository;
 
     @InjectMocks
     private PaymentService paymentService;
@@ -65,6 +69,7 @@ class PaymentServiceTest {
 
     @Test
     void promotion_amount_more_than_account_balance_exception() {
+        // 프로모션 적용하더라도 잔액이 부족한 경우
         Integer balance = 1000;
         Integer amount = 2000;
         Integer promotionFinalPrice = 1500;
@@ -74,11 +79,34 @@ class PaymentServiceTest {
         Account mockAccount = getMockAccount(balance);
         PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
-        // 프로모션 적용하더라도 잔액이 부족한 경우
+        // when
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(mockAccount));
+
         // then
         assertThrows(AmountNotEnoughException.class, () -> paymentService.payment(accountId, mockPayCommand));
+    }
 
+    @Test
+    void transaction_success() {
+        Integer balance = 10000;
+        Integer amount = 2000;
+        Integer promotionFinalPrice = 1500;
+        Integer paymentResultBalance = balance - promotionFinalPrice;
+        Boolean isPromotionPrice = true;
+
+        // given
+        Account mockAccount = getMockAccount(balance);
+        PaymentCommand mockPaymentCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
+
+        // when
+        when(accountRepository.findById(accountId)).thenReturn(Optional.of(mockAccount));
+
+        PaymentResult actual = paymentService.payment(accountId, mockPaymentCommand);
+
+        // then
+        assertNotNull(actual);
+        assertEquals(1, actual.getTransactionSeq());
+        assertEquals(paymentResultBalance, actual.getBalance());
     }
 
     private PaymentCommand getMockPaymentCommand(Integer amount, Integer promotionFinalPrice, Boolean isPromotionPrice) {

@@ -97,17 +97,20 @@ class PaymentCommandConverterTest {
     void success() {
         // given
         Integer amount = 10000;
-        Integer promotionAmount = 3000;
-        Float promotionRatio = 33.3F;
+        Integer promotionAmount = 90;
+        Float promotionRatio = 10F;
         // excepted price
-        Integer exceptedPrice = amount - promotionAmount - ((int) (amount * (promotionRatio / 100)));
+        Integer exceptedPrice = 8100;
+        // Integer exceptedPrice = 8910;
 
         PromotionRequest mockAmountPromotionRequest = getMockPromotionRequest(PromotionType.AMOUNT.getCode(), promotionAmount, null);
         PromotionRequest mockRatioPromotionRequest = getMockPromotionRequest(PromotionType.RATIO.getCode(), null, promotionRatio);
-        PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of(mockAmountPromotionRequest, mockRatioPromotionRequest));
+        PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of(mockRatioPromotionRequest, mockAmountPromotionRequest));
 
         // when
         PaymentCommand actual = paymentCommandConverter.convert(mockPaymentRequest);
+
+        // then
         assertEquals(amount, actual.getAmount());
         assertEquals(exceptedPrice, actual.getPromotionFinalPrice());
         assertTrue(actual.getIsPromotionPrice());

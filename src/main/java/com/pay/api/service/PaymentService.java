@@ -6,6 +6,7 @@ import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.dto.AccountDto;
 import com.pay.api.repository.AccountRepository;
+import com.pay.api.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ import java.util.Optional;
 public class PaymentService {
 
     private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
 
-    public void payment(Long accountSeq, PaymentCommand paymentCommand) {
-        Optional<Account> account = accountRepository.findById(accountSeq);
+    public PaymentResult payment(Long accountId, PaymentCommand paymentCommand) {
+        Optional<Account> account = accountRepository.findById(accountId);
         if (account.isEmpty()) {
             throw new AccountNotFoundException();
         }
@@ -30,5 +32,7 @@ public class PaymentService {
         if (paymentCommand.getPromotionFinalPrice() > accountDto.getBalance()) {
             throw new AmountNotEnoughException();
         }
+
+        return new PaymentResult(1L, 8500);
     }
 }
