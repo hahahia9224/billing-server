@@ -1,6 +1,7 @@
 package com.pay.api.service;
 
 import com.pay.api.domain.Account;
+import com.pay.api.domain.Transaction;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.model.command.PaymentCommand;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -93,6 +95,7 @@ class PaymentServiceTest {
         Integer promotionFinalPrice = 1500;
         Integer paymentResultBalance = balance - promotionFinalPrice;
         Boolean isPromotionPrice = true;
+        Long transactionSeq = 1L;
 
         // given
         Account mockAccount = getMockAccount(balance);
@@ -100,12 +103,13 @@ class PaymentServiceTest {
 
         // when
         when(accountRepository.findById(accountId)).thenReturn(Optional.of(mockAccount));
+        when(transactionRepository.save(any())).thenReturn(getMockTransaction(transactionSeq, mockAccount.getId(), amount, promotionFinalPrice, "title"));
 
         PaymentResult actual = paymentService.payment(accountId, mockPaymentCommand);
 
         // then
         assertNotNull(actual);
-        assertEquals(1, actual.getTransactionSeq());
+        assertEquals(transactionSeq, actual.getTransactionSeq());
         assertEquals(paymentResultBalance, actual.getBalance());
     }
 
@@ -115,6 +119,21 @@ class PaymentServiceTest {
     }
 
     private Account getMockAccount(Integer balance) {
-        return new Account(accountId, LocalDateTime.now(), balance);
+        Account mockAccount = new Account();
+        mockAccount.setId(accountId);
+        mockAccount.setRegisteredDate(LocalDateTime.now());
+        mockAccount.setBalance(balance);
+        return mockAccount;
+    }
+
+    private Transaction getMockTransaction(Long transactionSeq, Long accountSeq, Integer amount, Integer paymentAmount, String title) {
+        Transaction mockTransaction = new Transaction();
+        mockTransaction.setId(transactionSeq);
+        mockTransaction.setAccountSeq(accountSeq);
+        mockTransaction.setAmount(amount);
+        mockTransaction.setPaymentAmount(paymentAmount);
+        mockTransaction.setTitle(title);
+        mockTransaction.setRegisteredDate(LocalDateTime.now());
+        return mockTransaction;
     }
 }

@@ -100,8 +100,8 @@ class PaymentCommandConverterTest {
         Integer promotionAmount = 90;
         Float promotionRatio = 10F;
         // excepted price
-        Integer exceptedPrice = 8100;
-        // Integer exceptedPrice = 8910;
+        // Integer exceptedPrice = 8100;
+        Integer exceptedPrice = 8910;
 
         PromotionRequest mockAmountPromotionRequest = getMockPromotionRequest(PromotionType.AMOUNT.getCode(), promotionAmount, null);
         PromotionRequest mockRatioPromotionRequest = getMockPromotionRequest(PromotionType.RATIO.getCode(), null, promotionRatio);
