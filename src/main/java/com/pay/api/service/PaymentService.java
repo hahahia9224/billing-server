@@ -5,6 +5,7 @@ import com.pay.api.domain.Transaction;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.model.command.PaymentCommand;
+import com.pay.api.model.dto.PaymentResultDto;
 import com.pay.api.repository.AccountRepository;
 import com.pay.api.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
@@ -21,7 +22,7 @@ public class PaymentService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
-    public PaymentResult payment(Long accountId, PaymentCommand paymentCommand) {
+    public PaymentResultDto payment(Long accountId, PaymentCommand paymentCommand) {
 
         Account accountInDb = accountRepository.findByIdWithLock(accountId)
                 .orElseThrow(AccountNotFoundException::new);
@@ -42,6 +43,6 @@ public class PaymentService {
         Transaction transactionResult = transactionRepository.save(transaction);
         accountRepository.save(accountInDb);
 
-        return new PaymentResult(transactionResult.getId(), accountInDb.getBalance());
+        return new PaymentResultDto(transactionResult.getId(), accountInDb.getBalance());
     }
 }

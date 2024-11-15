@@ -4,7 +4,7 @@ import com.pay.api.helper.PaymentCommandConverter;
 import com.pay.api.model.api.PayApiResponse;
 import com.pay.api.model.api.PaymentRequest;
 import com.pay.api.model.command.PaymentCommand;
-import com.pay.api.service.PaymentResult;
+import com.pay.api.model.dto.PaymentResultDto;
 import com.pay.api.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -25,9 +25,9 @@ public class PaymentController {
     public ResponseEntity<PayApiResponse> payment(@Valid @RequestBody PaymentRequest paymentRequest, @PathVariable Long accountSeq) {
 
         PaymentCommand paymentCommand = paymentCommandConverter.convert(paymentRequest);
-        PaymentResult paymentResult = paymentService.payment(accountSeq, paymentCommand);
+        PaymentResultDto paymentResultDto = paymentService.payment(accountSeq, paymentCommand);
 
-        return ResponseEntity.ok(PayApiResponse.ok(paymentResult.getTransactionSeq(), paymentResult.getBalance()));
+        return ResponseEntity.ok(PayApiResponse.ok(paymentResultDto.getTransactionSeq(), paymentResultDto.getBalance()));
     }
 
 }

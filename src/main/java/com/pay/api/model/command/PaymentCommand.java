@@ -6,9 +6,9 @@ import lombok.Setter;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class PaymentCommand {
 
     // 프로모션 적용 전 가격

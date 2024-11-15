@@ -1,4 +1,4 @@
-package com.pay.api.service;
+package com.pay.api.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PaymentResult {
+public class PaymentResultDto {
 
     // 트랜잭션 고유값
     private final Long transactionSeq;

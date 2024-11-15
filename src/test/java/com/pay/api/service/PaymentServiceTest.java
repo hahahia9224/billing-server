@@ -4,6 +4,7 @@ import com.pay.api.domain.Account;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.model.command.PaymentCommand;
+import com.pay.api.model.dto.PaymentResultDto;
 import com.pay.api.repository.AccountRepository;
 import com.pay.api.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
@@ -105,7 +106,7 @@ class PaymentServiceTest {
         when(accountRepository.findByIdWithLock(accountId)).thenReturn(Optional.of(mockAccount));
         when(transactionRepository.save(any())).thenReturn(PaymentTestUtils.getMockTransaction(transactionSeq, mockAccount.getId(), amount, promotionFinalPrice, "title"));
 
-        PaymentResult actual = paymentService.payment(accountId, mockPaymentCommand);
+        PaymentResultDto actual = paymentService.payment(accountId, mockPaymentCommand);
 
         // then
         assertNotNull(actual);
