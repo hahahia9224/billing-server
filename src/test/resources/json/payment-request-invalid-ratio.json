@@ -1,0 +1,16 @@
+{
+  "amount": 10000,
+  "title": "Purchase Item",
+  "promotions": [
+    {
+      "promotionType": "ratio",
+      "promotionRatio": 100.1,
+      "promotionTitle": 1
+    },
+    {
+      "promotionType": "amount",
+      "promotionAmount": 90,
+      "promotionTitle": 2
+    }
+  ]
+}

@@ -26,6 +26,7 @@ public class PayApiExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<PayApiResponse> handlePayApiException(Exception e) {
 
+        // 기타 오류 처리
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
 
         if (e instanceof PayApiCustomException payApiCustomException) {
@@ -37,4 +38,5 @@ public class PayApiExceptionHandler {
         PayApiResponse errorResponse = PayApiResponse.errorFrom(errorCode, errorMessage);
         return new ResponseEntity<>(errorResponse, errorCode.getStatus());
     }
+
 }
