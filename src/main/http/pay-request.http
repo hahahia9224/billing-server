@@ -1,0 +1,124 @@
+### Payment success
+POST /v1/payment/account/1 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 271
+
+{
+  "amount": 10000,
+  "title": "Purchase Item",
+  "promotions": [
+    {
+      "promotionType": "ratio",
+      "promotionRatio": 10,
+      "promotionTitle": 1
+    },
+    {
+      "promotionType": "amount",
+      "promotionAmount": 90,
+      "promotionTitle": 2
+    }
+  ]
+}
+
+### Invalid parameter (title is required)
+POST /v1/payment/account/1 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 244
+
+{
+  "amount": 10000,
+  "promotions": [
+    {
+      "promotionType": "ratio",
+      "promotionRatio": 10,
+      "promotionTitle": 1
+    },
+    {
+      "promotionType": "amount",
+      "promotionAmount": 90,
+      "promotionTitle": 2
+    }
+  ]
+}
+
+### Invalid parameter (promotionRatio range is 0 ~ 100)
+POST /v1/payment/account/1 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 275
+
+{
+  "amount": 10000,
+  "title": "Purchase Item",
+  "promotions": [
+    {
+      "promotionType": "ratio",
+      "promotionRatio": 100.1,
+      "promotionTitle": 1
+    },
+    {
+      "promotionType": "amount",
+      "promotionAmount": 90,
+      "promotionTitle": 2
+    }
+  ]
+}
+
+### invalid promotion type
+POST /v1/payment/account/1 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 271
+
+{
+  "amount": 10000,
+  "title": "test",
+  "promotions": [
+    {
+      "promotionType": "invalid-ratio",
+      "promotionRatio": 10,
+      "promotionTitle": 1
+    },
+    {
+      "promotionType": "amount",
+      "promotionAmount": 90,
+      "promotionTitle": 2
+    }
+  ]
+}
+
+### account not found
+POST /v1/payment/account/2 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 271
+
+{
+  "amount": 10000,
+  "title": "Purchase Item",
+  "promotions": [
+    {
+      "promotionType": "ratio",
+      "promotionRatio": 10,
+      "promotionTitle": 1
+    },
+    {
+      "promotionType": "amount",
+      "promotionAmount": 90,
+      "promotionTitle": 2
+    }
+  ]
+}
+
+### amount not enough
+POST /v1/payment/account/1 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 52
+
+{
+  "amount": 2000000,
+  "title": "Purchase Item"
+}

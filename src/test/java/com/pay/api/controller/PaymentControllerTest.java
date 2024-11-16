@@ -1,6 +1,7 @@
 package com.pay.api.controller;
 
 import com.pay.api.config.PayApiExceptionHandler;
+import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.exception.ErrorCode;
 import com.pay.api.helper.PaymentCommandConverter;
@@ -142,6 +143,27 @@ class PaymentControllerTest {
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.resultCode").value(ErrorCode.AMOUNT_NOT_ENOUGH.getResultCode()))
                 .andExpect(jsonPath("$.resultMessage").value(ErrorCode.AMOUNT_NOT_ENOUGH.getResultMessage()));
+    }
+
+    @Test
+    void test_payment_post_account_not_found() throws Exception {
+        // Response Example 4 - 계좌 정보 없음
+        Long invalidAccountSeq = 2L;
+
+        // given
+        PaymentCommand mockPaymentCommand = PaymentTestUtils.getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
+
+        // when
+        when(paymentCommandConverter.convert(any(PaymentRequest.class))).thenReturn(mockPaymentCommand);
+        when(paymentService.payment(anyLong(), any(PaymentCommand.class))).thenThrow(new AccountNotFoundException());
+
+        // then
+        mockMvc.perform(post(uriPath, invalidAccountSeq)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(readJsonContent("payment-request.json")))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.resultCode").value(ErrorCode.ACCOUNT_NOT_FOUND.getResultCode()))
+                .andExpect(jsonPath("$.resultMessage").value(ErrorCode.ACCOUNT_NOT_FOUND.getResultMessage()));
     }
 
     @Test
