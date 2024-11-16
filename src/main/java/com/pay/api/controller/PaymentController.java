@@ -22,8 +22,7 @@ public class PaymentController {
     @PostMapping("/v1/payment/account/{accountSeq}")
     public ResponseEntity<PayApiResponse> payment(@Valid @RequestBody PaymentRequest paymentRequest, @PathVariable Long accountSeq) {
 
-        PaymentCommand paymentCommand = PaymentCommand.convert(paymentRequest);
-        PaymentResultDto paymentResultDto = paymentService.payment(accountSeq, paymentCommand);
+        PaymentResultDto paymentResultDto = paymentService.payment(accountSeq, PaymentCommand.convert(paymentRequest));
 
         return ResponseEntity.ok(PayApiResponse.ok(paymentResultDto.getTransactionSeq(), paymentResultDto.getBalance()));
     }

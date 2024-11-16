@@ -1,10 +1,10 @@
 package com.pay.api.service;
 
-import com.pay.api.model.entity.Account;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.dto.PaymentResultDto;
+import com.pay.api.model.entity.Account;
 import com.pay.api.repository.AccountRepository;
 import com.pay.api.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static com.pay.api.service.PaymentTestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -34,13 +35,14 @@ class PaymentServiceTest {
 
     @Test
     void account_not_found_exception() {
+        // 계좌 정보가 없는 경우
         Long accountId = 1L;
         Integer amount = 2000;
         Integer promotionFinalPrice = 1500;
         Boolean isPromotionPrice = true;
 
         // given
-        PaymentCommand mockPayCommand = PaymentTestUtils.getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
+        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
         // when
         when(accountRepository.findByIdWithLock(accountId)).thenReturn(Optional.empty());
@@ -51,6 +53,7 @@ class PaymentServiceTest {
 
     @Test
     void amount_is_more_than_account_balance_exception() {
+        // 잔액이 부족한 경우
         Long accountId = 1L;
         Integer balance = 1000;
         Integer amount = 2000;
@@ -58,8 +61,8 @@ class PaymentServiceTest {
         Boolean isPromotionPrice = true;
 
         // given
-        Account mockAccount = PaymentTestUtils.getMockAccount(accountId, balance);
-        PaymentCommand mockPayCommand = PaymentTestUtils.getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
+        Account mockAccount = getMockAccount(accountId, balance);
+        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
         // when
         when(accountRepository.findByIdWithLock(accountId)).thenReturn(Optional.of(mockAccount));
@@ -78,8 +81,8 @@ class PaymentServiceTest {
         Boolean isPromotionPrice = true;
 
         // given
-        Account mockAccount = PaymentTestUtils.getMockAccount(accountId, balance);
-        PaymentCommand mockPayCommand = PaymentTestUtils.getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
+        Account mockAccount = getMockAccount(accountId, balance);
+        PaymentCommand mockPayCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
         // when
         when(accountRepository.findByIdWithLock(accountId)).thenReturn(Optional.of(mockAccount));
@@ -90,6 +93,7 @@ class PaymentServiceTest {
 
     @Test
     void transaction_success() {
+        // 일반 성공 케이스
         Long accountId = 1L;
         Integer balance = 10000;
         Integer amount = 2000;
@@ -99,12 +103,12 @@ class PaymentServiceTest {
         Long transactionSeq = 1L;
 
         // given
-        Account mockAccount = PaymentTestUtils.getMockAccount(accountId, balance);
-        PaymentCommand mockPaymentCommand = PaymentTestUtils.getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
+        Account mockAccount = getMockAccount(accountId, balance);
+        PaymentCommand mockPaymentCommand = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
 
         // when
         when(accountRepository.findByIdWithLock(accountId)).thenReturn(Optional.of(mockAccount));
-        when(transactionRepository.save(any())).thenReturn(PaymentTestUtils.getMockTransaction(transactionSeq, mockAccount.getId(), amount, promotionFinalPrice, "title"));
+        when(transactionRepository.save(any())).thenReturn(getMockTransaction(transactionSeq, mockAccount.getId(), amount, promotionFinalPrice, "title"));
 
         PaymentResultDto actual = paymentService.payment(accountId, mockPaymentCommand);
 

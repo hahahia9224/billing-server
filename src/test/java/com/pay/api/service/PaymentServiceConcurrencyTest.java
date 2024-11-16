@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.pay.api.service.PaymentTestUtils.getMockPaymentCommand;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -40,10 +41,10 @@ public class PaymentServiceConcurrencyTest {
         for (int i = 0; i < totalRequests; i++) {
             executor.submit(() -> {
                 try {
-                    PaymentCommand command = PaymentTestUtils.getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
+                    PaymentCommand command = getMockPaymentCommand(amount, promotionFinalPrice, isPromotionPrice);
                     paymentService.payment(accountSeq, command);
                     successCount.incrementAndGet();
-                    System.out.println("성공");
+                    System.out.println("Payment Success");
                 } catch (Exception e) {
                     failureCount.incrementAndGet();
                     System.out.println("Exception: " + e.getMessage());

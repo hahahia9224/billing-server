@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.pay.api.service.PaymentTestUtils.getMockPaymentRequest;
+import static com.pay.api.service.PaymentTestUtils.getMockPromotionRequest;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PaymentCommandTest {
@@ -90,8 +92,6 @@ class PaymentCommandTest {
         Integer amount = 10000;
         Integer promotionAmount = 90;
         Float promotionRatio = 10F;
-        // excepted price
-        // Integer exceptedPrice = 8100;
         Integer exceptedPrice = 8910;
 
         PromotionRequest mockAmountPromotionRequest = getMockPromotionRequest(PromotionType.AMOUNT.getCode(), promotionAmount, null);
@@ -108,12 +108,5 @@ class PaymentCommandTest {
         assertNotNull(actual);
     }
 
-    private PaymentRequest getMockPaymentRequest(Integer amount, List<PromotionRequest> promotions) {
-        return new PaymentRequest(amount, "title", promotions);
-    }
-
-    private PromotionRequest getMockPromotionRequest(String promotionType, Integer promotionAmount, Float promotionRatio) {
-        return new PromotionRequest(promotionType, "promotionTitleTest", promotionAmount, promotionRatio);
-    }
 
 }
