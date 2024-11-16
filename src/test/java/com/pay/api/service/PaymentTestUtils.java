@@ -1,7 +1,7 @@
 package com.pay.api.service;
 
-import com.pay.api.domain.Account;
-import com.pay.api.domain.Transaction;
+import com.pay.api.model.entity.Account;
+import com.pay.api.model.entity.Transaction;
 import com.pay.api.model.command.PaymentCommand;
 
 import java.time.LocalDateTime;

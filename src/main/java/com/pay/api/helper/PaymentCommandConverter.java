@@ -1,8 +1,8 @@
 package com.pay.api.helper;
 
 import com.pay.api.exception.InvalidParameterException;
-import com.pay.api.model.api.PaymentRequest;
-import com.pay.api.model.api.PromotionRequest;
+import com.pay.api.controller.request.PaymentRequest;
+import com.pay.api.controller.request.PromotionRequest;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.command.PromotionCommand;
 import org.springframework.stereotype.Component;

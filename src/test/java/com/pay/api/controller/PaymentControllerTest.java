@@ -5,7 +5,7 @@ import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.exception.ErrorCode;
 import com.pay.api.helper.PaymentCommandConverter;
-import com.pay.api.model.api.PaymentRequest;
+import com.pay.api.controller.request.PaymentRequest;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.dto.PaymentResultDto;
 import com.pay.api.service.PaymentService;
@@ -45,12 +45,12 @@ class PaymentControllerTest {
 
     private String uriPath = "/v1/payment/account/{accountSeq}";
 
-    Long accountSeq = 1L;
-    Integer amount = 2000;
-    Integer promotionFinalPrice = 1500;
-    Boolean isPromotionPrice = true;
-    Integer balance = 1000;
-    Long transactionSeq = 1L;
+    static final Long accountSeq = 1L;
+    static final Integer amount = 2000;
+    static final Integer promotionFinalPrice = 1500;
+    static final Boolean isPromotionPrice = true;
+    static final Integer balance = 1000;
+    static final Long transactionSeq = 1L;
 
     @BeforeEach
     void setUp() {

@@ -1,4 +1,4 @@
-package com.pay.api.model.api;
+package com.pay.api.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pay.api.exception.ErrorCode;

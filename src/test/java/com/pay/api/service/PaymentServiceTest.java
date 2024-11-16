@@ -1,6 +1,6 @@
 package com.pay.api.service;
 
-import com.pay.api.domain.Account;
+import com.pay.api.model.entity.Account;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
 import com.pay.api.model.command.PaymentCommand;

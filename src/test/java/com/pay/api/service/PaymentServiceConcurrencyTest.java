@@ -35,6 +35,8 @@ public class PaymentServiceConcurrencyTest {
         Integer exceptedFailureCount = totalRequests - exceptedSuccessCount;
 
         // when (concurrency paymentService.payment method)
+        // threadPool 기반으로 paymentService.payment 호출 후,
+        // 최종적으로 성공한 카운트 확인을 통하여 동시성 처리 확인
         for (int i = 0; i < totalRequests; i++) {
             executor.submit(() -> {
                 try {

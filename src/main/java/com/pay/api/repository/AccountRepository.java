@@ -1,6 +1,6 @@
 package com.pay.api.repository;
 
-import com.pay.api.domain.Account;
+import com.pay.api.model.entity.Account;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;

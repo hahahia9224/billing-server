@@ -1,8 +1,8 @@
 package com.pay.api.controller;
 
 import com.pay.api.helper.PaymentCommandConverter;
-import com.pay.api.model.api.PayApiResponse;
-import com.pay.api.model.api.PaymentRequest;
+import com.pay.api.controller.response.PayApiResponse;
+import com.pay.api.controller.request.PaymentRequest;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.dto.PaymentResultDto;
 import com.pay.api.service.PaymentService;

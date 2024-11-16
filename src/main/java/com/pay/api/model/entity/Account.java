@@ -1,4 +1,4 @@
-package com.pay.api.domain;
+package com.pay.api.model.entity;
 
 
 import jakarta.persistence.*;

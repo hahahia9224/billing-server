@@ -2,10 +2,10 @@ package com.pay.api.helper;
 
 import com.pay.api.exception.InvalidParameterException;
 import com.pay.api.exception.InvalidPromotionTypeException;
-import com.pay.api.model.api.PaymentRequest;
-import com.pay.api.model.api.PromotionRequest;
-import com.pay.api.model.enums.PromotionType;
+import com.pay.api.controller.request.PaymentRequest;
+import com.pay.api.controller.request.PromotionRequest;
 import com.pay.api.model.command.PaymentCommand;
+import com.pay.api.model.entity.PromotionType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,4 +1,4 @@
-package com.pay.api.model.api;
+package com.pay.api.controller.request;
 
 import com.pay.api.helper.ValidPromotionRatioFloatRange;
 import jakarta.validation.constraints.NotNull;
