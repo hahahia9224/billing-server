@@ -1,8 +1,7 @@
 package com.pay.api.controller;
 
-import com.pay.api.helper.PaymentCommandConverter;
-import com.pay.api.controller.response.PayApiResponse;
 import com.pay.api.controller.request.PaymentRequest;
+import com.pay.api.controller.response.PayApiResponse;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.dto.PaymentResultDto;
 import com.pay.api.service.PaymentService;
@@ -19,12 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
     private final PaymentService paymentService;
-    private final PaymentCommandConverter paymentCommandConverter;
 
     @PostMapping("/v1/payment/account/{accountSeq}")
     public ResponseEntity<PayApiResponse> payment(@Valid @RequestBody PaymentRequest paymentRequest, @PathVariable Long accountSeq) {
 
-        PaymentCommand paymentCommand = paymentCommandConverter.convert(paymentRequest);
+        PaymentCommand paymentCommand = PaymentCommand.convert(paymentRequest);
         PaymentResultDto paymentResultDto = paymentService.payment(accountSeq, paymentCommand);
 
         return ResponseEntity.ok(PayApiResponse.ok(paymentResultDto.getTransactionSeq(), paymentResultDto.getBalance()));

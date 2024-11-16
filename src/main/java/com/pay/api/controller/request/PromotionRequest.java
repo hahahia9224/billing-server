@@ -1,6 +1,5 @@
 package com.pay.api.controller.request;
 
-import com.pay.api.helper.ValidPromotionRatioFloatRange;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -24,6 +23,5 @@ public class PromotionRequest {
     private Integer promotionAmount;
 
     // 프로모션 할인 비율
-    @ValidPromotionRatioFloatRange(message = "promotionRatio range is 0 ~ 100")
     private Float promotionRatio;
 }

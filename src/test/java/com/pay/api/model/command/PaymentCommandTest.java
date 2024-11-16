@@ -1,25 +1,17 @@
-package com.pay.api.helper;
+package com.pay.api.model.command;
 
-import com.pay.api.exception.InvalidParameterException;
-import com.pay.api.exception.InvalidPromotionTypeException;
 import com.pay.api.controller.request.PaymentRequest;
 import com.pay.api.controller.request.PromotionRequest;
-import com.pay.api.model.command.PaymentCommand;
+import com.pay.api.exception.InvalidParameterException;
+import com.pay.api.exception.InvalidPromotionTypeException;
 import com.pay.api.model.entity.PromotionType;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-class PaymentCommandConverterTest {
-
-    @InjectMocks
-    private PaymentCommandConverter paymentCommandConverter;
+class PaymentCommandTest {
 
     @Test
     void not_promotion_case() {
@@ -28,7 +20,7 @@ class PaymentCommandConverterTest {
         PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of());
 
         // when
-        PaymentCommand actual = paymentCommandConverter.convert(mockPaymentRequest);
+        PaymentCommand actual = PaymentCommand.convert(mockPaymentRequest);
 
         // then
         assertNotNull(actual);
@@ -47,7 +39,7 @@ class PaymentCommandConverterTest {
         PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of(mockPromotionRequest, mockPromotionRequest, mockPromotionRequest));
 
         // when & then
-        assertThrows(InvalidParameterException.class, () -> paymentCommandConverter.convert(mockPaymentRequest));
+        assertThrows(InvalidParameterException.class, () -> PaymentCommand.convert(mockPaymentRequest));
     }
 
     @Test
@@ -61,7 +53,7 @@ class PaymentCommandConverterTest {
         PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of(mockPromotionRequest));
 
         // when & then
-        assertThrows(InvalidPromotionTypeException.class, () -> paymentCommandConverter.convert(mockPaymentRequest));
+        assertThrows(InvalidPromotionTypeException.class, () -> PaymentCommand.convert(mockPaymentRequest));
     }
 
     @Test
@@ -74,7 +66,7 @@ class PaymentCommandConverterTest {
         PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of(mockPromotionRequest));
 
         // when & then
-        assertThrows(InvalidParameterException.class, () -> paymentCommandConverter.convert(mockPaymentRequest));
+        assertThrows(InvalidParameterException.class, () -> PaymentCommand.convert(mockPaymentRequest));
     }
 
     @Test
@@ -89,7 +81,7 @@ class PaymentCommandConverterTest {
         PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of(mockAmountPromotionRequest, mockRatioPromotionRequest));
 
         // when & then
-        assertThrows(InvalidParameterException.class, () -> paymentCommandConverter.convert(mockPaymentRequest));
+        assertThrows(InvalidParameterException.class, () -> PaymentCommand.convert(mockPaymentRequest));
     }
 
     @Test
@@ -107,7 +99,7 @@ class PaymentCommandConverterTest {
         PaymentRequest mockPaymentRequest = getMockPaymentRequest(amount, List.of(mockRatioPromotionRequest, mockAmountPromotionRequest));
 
         // when
-        PaymentCommand actual = paymentCommandConverter.convert(mockPaymentRequest);
+        PaymentCommand actual = PaymentCommand.convert(mockPaymentRequest);
 
         // then
         assertEquals(amount, actual.getAmount());

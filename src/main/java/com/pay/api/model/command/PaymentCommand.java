@@ -1,8 +1,12 @@
 package com.pay.api.model.command;
 
+import com.pay.api.controller.request.PaymentRequest;
+import com.pay.api.controller.request.PromotionRequest;
+import com.pay.api.exception.InvalidParameterException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -25,5 +29,83 @@ public class PaymentCommand {
 
     // 프로모션 적용 상세
     private List<PromotionCommand> promotionCommands;
+
+    // PaymentRequest 를 PaymentCommand 객체로 변환
+    // PaymentCommand 객체로 변환 시, validate 작업 수행
+    public static PaymentCommand convert(PaymentRequest paymentRequest) {
+        List<PromotionRequest> promotions = paymentRequest.getPromotions();
+
+        if (CollectionUtils.isEmpty(promotions)) {
+            return createPaymentCommandWithoutPromotion(paymentRequest);
+        }
+
+        if (promotions.size() > 2) {
+            throw new InvalidParameterException("Promotion count must be less than or equal to 2");
+        }
+
+        List<PromotionCommand> promotionCommands = promotions.stream()
+                .map(PromotionCommand::from)
+                .toList();
+
+        int promotionFinalPrice = calculatePromotionFinalPrice(paymentRequest.getAmount(), promotionCommands);
+
+        return new PaymentCommand(
+                paymentRequest.getAmount(),
+                promotionFinalPrice,
+                true,
+                paymentRequest.getTitle(),
+                promotionCommands
+        );
+    }
+
+    private static PaymentCommand createPaymentCommandWithoutPromotion(PaymentRequest paymentRequest) {
+        return new PaymentCommand(
+                paymentRequest.getAmount(),
+                paymentRequest.getAmount(),
+                false,
+                paymentRequest.getTitle(),
+                null
+        );
+    }
+
+    private static int calculatePromotionFinalPrice(int amount, List<PromotionCommand> promotionCommands) {
+        int finalPrice = amount;
+
+        for (PromotionCommand command : promotionCommands) {
+            validatePromotionType(command, amount);
+            int discount = calculateDiscount(amount, command);
+            finalPrice -= discount;
+
+            if (finalPrice < 0) {
+                throw new InvalidParameterException("The promotion final price exceeds the amount.");
+            }
+        }
+
+        return finalPrice;
+    }
+
+    private static void validatePromotionType(PromotionCommand command, int amount) {
+        switch (command.getPromotionType()) {
+            case AMOUNT -> {
+                Integer promotionAmount = command.getPromotionAmount();
+                if (promotionAmount == null || promotionAmount < 1 || promotionAmount >= amount) {
+                    throw new InvalidParameterException("PromotionAmount must be between 1 and the amount.");
+                }
+            }
+            case RATIO -> {
+                Float promotionRatio = command.getPromotionRatio();
+                if (promotionRatio == null || promotionRatio <= 0 || promotionRatio > 100) {
+                    throw new InvalidParameterException("promotionRatio range is 0 ~ 100");
+                }
+            }
+        }
+    }
+
+    private static int calculateDiscount(int amount, PromotionCommand command) {
+        return switch (command.getPromotionType()) {
+            case AMOUNT -> command.getPromotionAmount();
+            case RATIO -> (int) (amount * (command.getPromotionRatio() / 100));
+        };
+    }
 
 }
