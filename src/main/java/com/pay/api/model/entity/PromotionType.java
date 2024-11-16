@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 public enum PromotionType {
-    AMOUNT("amount"),
-    RATIO("ratio");
+    AMOUNT("amount"), // 금액 기반 할인
+    RATIO("ratio"); // 비율 기반 할인
 
     private final String code;
 

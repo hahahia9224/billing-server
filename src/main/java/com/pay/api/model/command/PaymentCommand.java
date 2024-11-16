@@ -35,20 +35,29 @@ public class PaymentCommand {
     public static PaymentCommand convert(PaymentRequest paymentRequest) {
         List<PromotionRequest> promotions = paymentRequest.getPromotions();
 
+        // 프로모션 정보 없는 경우
+        // createPaymentCommandWithoutPromotion 를 통해 PaymentCommand 생성
         if (CollectionUtils.isEmpty(promotions)) {
             return createPaymentCommandWithoutPromotion(paymentRequest);
         }
 
+        // 최대 2개의 프로모션을 받을 수 있음
         if (promotions.size() > 2) {
             throw new InvalidParameterException("Promotion count must be less than or equal to 2");
         }
 
+        // promotionCommands 리스트 생성
         List<PromotionCommand> promotionCommands = promotions.stream()
                 .map(PromotionCommand::from)
                 .toList();
 
+        // promotionCommands 데이터 검증
+        validatePromotions(promotionCommands, paymentRequest.getAmount());
+
+        // promotionCommands 를 이용하여 할인 적용 금액 계산
         int promotionFinalPrice = calculatePromotionFinalPrice(paymentRequest.getAmount(), promotionCommands);
 
+        // 최종 PaymentCommand 객체 Return
         return new PaymentCommand(
                 paymentRequest.getAmount(),
                 promotionFinalPrice,
@@ -72,9 +81,8 @@ public class PaymentCommand {
         int finalPrice = amount;
 
         for (PromotionCommand command : promotionCommands) {
-            validatePromotionType(command, amount);
-            int discount = calculateDiscount(amount, command);
-            finalPrice -= discount;
+            int discountPrice = calculateDiscountPrice(amount, command);
+            finalPrice -= discountPrice;
 
             if (finalPrice < 0) {
                 throw new InvalidParameterException("The promotion final price exceeds the amount.");
@@ -84,24 +92,36 @@ public class PaymentCommand {
         return finalPrice;
     }
 
-    private static void validatePromotionType(PromotionCommand command, int amount) {
-        switch (command.getPromotionType()) {
-            case AMOUNT -> {
-                Integer promotionAmount = command.getPromotionAmount();
-                if (promotionAmount == null || promotionAmount < 1 || promotionAmount >= amount) {
-                    throw new InvalidParameterException("PromotionAmount must be between 1 and the amount.");
+    private static void validatePromotions(List<PromotionCommand> commands, int amount) {
+        for (PromotionCommand command : commands) {
+            switch (command.getPromotionType()) {
+                case AMOUNT -> {
+                    Integer promotionAmount = command.getPromotionAmount();
+                    if (promotionAmount == null) {
+                        throw new InvalidParameterException("PromotionAmount is required (if amount promotion type)");
+                    }
+
+                    // 1 이상의 amount 보다 작은 정수
+                    if (promotionAmount < 1 || promotionAmount >= amount) {
+                        throw new InvalidParameterException("PromotionAmount must be between 1 and the amount.");
+                    }
                 }
-            }
-            case RATIO -> {
-                Float promotionRatio = command.getPromotionRatio();
-                if (promotionRatio == null || promotionRatio <= 0 || promotionRatio > 100) {
-                    throw new InvalidParameterException("promotionRatio range is 0 ~ 100");
+                case RATIO -> {
+                    Float promotionRatio = command.getPromotionRatio();
+                    if (promotionRatio == null) {
+                        throw new InvalidParameterException("promotionRatio is required (if ratio promotion type)");
+                    }
+
+                    // 0 초과 100 이하의 소수
+                    if (promotionRatio <= 0 || promotionRatio > 100) {
+                        throw new InvalidParameterException("promotionRatio range is 0 ~ 100");
+                    }
                 }
             }
         }
     }
 
-    private static int calculateDiscount(int amount, PromotionCommand command) {
+    private static int calculateDiscountPrice(int amount, PromotionCommand command) {
         return switch (command.getPromotionType()) {
             case AMOUNT -> command.getPromotionAmount();
             case RATIO -> (int) (amount * (command.getPromotionRatio() / 100));
