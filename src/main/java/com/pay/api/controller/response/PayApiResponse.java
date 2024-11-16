@@ -1,7 +1,7 @@
 package com.pay.api.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.pay.api.exception.ErrorCode;
+import com.pay.api.exception.ResponseCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,18 +20,9 @@ public class PayApiResponse {
 
     private final Integer balance;
 
-    public static PayApiResponse errorFrom(ErrorCode errorCode, String resultMessage) {
+    public static PayApiResponse errorFrom(ResponseCode responseCode, String resultMessage) {
         return new PayApiResponse(
-                errorCode.getResultCode(),
-                resultMessage,
-                null,
-                null
-        );
-    }
-
-    public static PayApiResponse error(String resultCode, String resultMessage) {
-        return new PayApiResponse(
-                resultCode,
+                responseCode.getResultCode(),
                 resultMessage,
                 null,
                 null
@@ -40,8 +31,8 @@ public class PayApiResponse {
 
     public static PayApiResponse ok(Long transactionSeq, Integer balance) {
         return new PayApiResponse(
-                "0000",
-                "success",
+                ResponseCode.SUCCESS.getResultCode(),
+                ResponseCode.SUCCESS.getResultMessage(),
                 transactionSeq,
                 balance
         );

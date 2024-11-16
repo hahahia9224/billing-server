@@ -3,7 +3,7 @@ package com.pay.api.controller;
 import com.pay.api.config.PayApiExceptionHandler;
 import com.pay.api.exception.AccountNotFoundException;
 import com.pay.api.exception.AmountNotEnoughException;
-import com.pay.api.exception.ErrorCode;
+import com.pay.api.exception.ResponseCode;
 import com.pay.api.model.command.PaymentCommand;
 import com.pay.api.model.dto.PaymentResultDto;
 import com.pay.api.service.PaymentService;
@@ -87,7 +87,7 @@ class PaymentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(readJsonContent("payment-request-title-not-exist.json")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.resultCode").value(ErrorCode.INVALID_PARAMETER.getResultCode()))
+                .andExpect(jsonPath("$.resultCode").value(ResponseCode.INVALID_PARAMETER.getResultCode()))
                 .andExpect(jsonPath("$.resultMessage").value("title is required"));
     }
 
@@ -106,7 +106,7 @@ class PaymentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(readJsonContent("payment-request-invalid-ratio.json")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.resultCode").value(ErrorCode.INVALID_PARAMETER.getResultCode()))
+                .andExpect(jsonPath("$.resultCode").value(ResponseCode.INVALID_PARAMETER.getResultCode()))
                 .andExpect(jsonPath("$.resultMessage").value("promotionRatio range is 0 ~ 100"));
     }
 
@@ -122,8 +122,8 @@ class PaymentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(readJsonContent("payment-request.json")))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.resultCode").value(ErrorCode.AMOUNT_NOT_ENOUGH.getResultCode()))
-                .andExpect(jsonPath("$.resultMessage").value(ErrorCode.AMOUNT_NOT_ENOUGH.getResultMessage()));
+                .andExpect(jsonPath("$.resultCode").value(ResponseCode.AMOUNT_NOT_ENOUGH.getResultCode()))
+                .andExpect(jsonPath("$.resultMessage").value(ResponseCode.AMOUNT_NOT_ENOUGH.getResultMessage()));
     }
 
     @Test
@@ -141,8 +141,8 @@ class PaymentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(readJsonContent("payment-request.json")))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.resultCode").value(ErrorCode.ACCOUNT_NOT_FOUND.getResultCode()))
-                .andExpect(jsonPath("$.resultMessage").value(ErrorCode.ACCOUNT_NOT_FOUND.getResultMessage()));
+                .andExpect(jsonPath("$.resultCode").value(ResponseCode.ACCOUNT_NOT_FOUND.getResultCode()))
+                .andExpect(jsonPath("$.resultMessage").value(ResponseCode.ACCOUNT_NOT_FOUND.getResultMessage()));
     }
 
     @Test
@@ -160,7 +160,7 @@ class PaymentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(readJsonContent("payment-request.json")))
                 .andExpect(status().is5xxServerError())
-                .andExpect(jsonPath("$.resultCode").value(ErrorCode.INTERNAL_SERVER_ERROR.getResultCode()))
+                .andExpect(jsonPath("$.resultCode").value(ResponseCode.INTERNAL_SERVER_ERROR.getResultCode()))
                 .andExpect(jsonPath("$.resultMessage").value(errorMessage));
     }
 

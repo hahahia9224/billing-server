@@ -2,12 +2,14 @@ package com.pay.api.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public enum ErrorCode {
+public enum ResponseCode {
+
+    // 성공
+    SUCCESS(HttpStatus.OK, "0000", "success"),
 
     // 파라미터 검증 실패
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "4000", "invalid parameter"),

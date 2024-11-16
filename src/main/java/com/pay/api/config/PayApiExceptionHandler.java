@@ -1,6 +1,6 @@
 package com.pay.api.config;
 
-import com.pay.api.exception.ErrorCode;
+import com.pay.api.exception.ResponseCode;
 import com.pay.api.exception.PayApiCustomException;
 import com.pay.api.controller.response.PayApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -16,27 +16,27 @@ public class PayApiExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<PayApiResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         FieldError fieldError = ex.getBindingResult().getFieldError();
-        ErrorCode errorCode = ErrorCode.INVALID_PARAMETER;
+        ResponseCode responseCode = ResponseCode.INVALID_PARAMETER;
 
-        String message = (fieldError == null) ? errorCode.getResultMessage() : fieldError.getDefaultMessage();
-        PayApiResponse errorResponse = PayApiResponse.errorFrom(errorCode, message);
-        return new ResponseEntity<>(errorResponse, errorCode.getStatus());
+        String message = (fieldError == null) ? responseCode.getResultMessage() : fieldError.getDefaultMessage();
+        PayApiResponse errorResponse = PayApiResponse.errorFrom(responseCode, message);
+        return new ResponseEntity<>(errorResponse, responseCode.getStatus());
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<PayApiResponse> handlePayApiException(Exception e) {
 
         // 기타 오류 처리
-        ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+        ResponseCode responseCode = ResponseCode.INTERNAL_SERVER_ERROR;
 
         if (e instanceof PayApiCustomException payApiCustomException) {
-            errorCode = payApiCustomException.getErrorCode();
+            responseCode = payApiCustomException.getResponseCode();
         }
 
-        String errorMessage = (e.getMessage() != null) ? e.getMessage() : errorCode.getResultMessage();
+        String errorMessage = (e.getMessage() != null) ? e.getMessage() : responseCode.getResultMessage();
 
-        PayApiResponse errorResponse = PayApiResponse.errorFrom(errorCode, errorMessage);
-        return new ResponseEntity<>(errorResponse, errorCode.getStatus());
+        PayApiResponse errorResponse = PayApiResponse.errorFrom(responseCode, errorMessage);
+        return new ResponseEntity<>(errorResponse, responseCode.getStatus());
     }
 
 }

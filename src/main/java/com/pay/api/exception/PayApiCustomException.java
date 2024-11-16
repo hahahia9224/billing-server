@@ -5,16 +5,16 @@ import lombok.Getter;
 @Getter
 public class PayApiCustomException extends RuntimeException {
 
-    private final ErrorCode errorCode;
+    private final ResponseCode responseCode;
 
-    public PayApiCustomException(ErrorCode errorCode) {
-        super(errorCode.getResultMessage());
-        this.errorCode = errorCode;
+    public PayApiCustomException(ResponseCode responseCode) {
+        super(responseCode.getResultMessage());
+        this.responseCode = responseCode;
     }
 
-    public PayApiCustomException(ErrorCode errorCode, String message) {
-        super(message != null ? message : errorCode.getResultMessage());
-        this.errorCode = errorCode;
+    public PayApiCustomException(ResponseCode responseCode, String message) {
+        super(message != null ? message : responseCode.getResultMessage());
+        this.responseCode = responseCode;
     }
 
 }
